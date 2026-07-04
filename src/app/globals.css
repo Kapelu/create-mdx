@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Base colors */
+  --background: #fdf6e3;
+  --foreground: #657b83;
+
+  --surface: #eee8d5;
+  --surface-2: #e4dcc6;
+
+  --border: #93a1a1;
+
+  --muted: #93a1a1;
+  --heading: #586e75;
+
+  --primary: #268bd2;
+  --secondary: #2aa198;
+  --success: #859900;
+  --warning: #b58900;
+  --danger: #dc322f;
+  --magenta: #d33682;
+  --violet: #6c71c4;
+  --orange: #cb4b16;
+
+  --mobile-header-height: 4rem;
+  --section-offset: calc(var(--mobile-header-height) + 1px);
+}
+
+html.dark {
+  --background: #002b36;
+  --foreground: #839496;
+
+  --surface: #073642;
+  --surface-2: #0b3f4c;
+
+  --border: #586e75;
+
+  --muted: #657b83;
+  --heading: #eee8d5;
+
+  --primary: #268bd2;
+  --secondary: #2aa198;
+  --success: #859900;
+  --warning: #b58900;
+  --danger: #dc322f;
+  --magenta: #d33682;
+  --violet: #6c71c4;
+  --orange: #cb4b16;
+}
+
+/* Tailwind Theme */
+
+@theme {
+  --font-gentium: var(--font-gentium);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+
+  --color-border: var(--border);
+
+  --color-muted: var(--muted);
+  --color-heading: var(--heading);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --color-orange: var(--orange);
+  --color-violet: var(--violet);
+  --color-magenta: var(--magenta);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Base */
+
+@layer base {
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-gentium);
+  }
+
+  a {
+    color: var(--primary);
+    transition: opacity 0.3s ease;
+  }
+
+  a:hover {
+    opacity: 0.75;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    color: var(--heading);
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+
+  h5 {
+    font-size: 0.875rem;
+  }
+
+  h6 {
+    font-size: 0.75rem;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+}
