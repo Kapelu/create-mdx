@@ -12,6 +12,8 @@ interface FormData {
   password: string
 }
 
+type TipoAcceso = 'admin' | 'chofer' | null
+
 export default function Login() {
   const router = useRouter()
 
@@ -19,6 +21,8 @@ export default function Login() {
     user: '',
     password: '',
   })
+
+  const [tipoAcceso, setTipoAcceso] = useState<TipoAcceso>(null)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -41,6 +45,11 @@ export default function Login() {
 
     if (loading) return
 
+    if (!tipoAcceso) {
+      setError('Debe seleccionar Admin o Chofer.')
+      return
+    }
+
     setLoading(true)
     setError('')
 
@@ -53,6 +62,7 @@ export default function Login() {
         body: JSON.stringify({
           usuario: formData.user,
           password: formData.password,
+          tipoAcceso,
         }),
       })
 
@@ -63,7 +73,7 @@ export default function Login() {
         return
       }
 
-      router.replace('/empleado')
+      router.replace(data.redirectTo)
       router.refresh()
     } catch {
       setError('No fue posible conectar con el servidor.')
@@ -110,23 +120,24 @@ export default function Login() {
         </div>
 
         <div className='mt-1 flex items-center justify-between'>
-          <label className='flex cursor-pointer items-center pl-15 gap-2 text-text text-muted'>
+          <label className='flex cursor-pointer items-center gap-2 pl-15 text-muted'>
             Admin
             <Input
               type='checkbox'
-              name='opciones'
-              value='opcion1'
+              checked={tipoAcceso === 'admin'}
+              onChange={() => setTipoAcceso('admin')}
               className='h-4 w-4'
             />
           </label>
-          <label className='flex cursor-pointer items-center pr-15 gap-2 text-text text-muted'>
+
+          <label className='flex cursor-pointer items-center gap-2 pr-15 text-muted'>
             <Input
               type='checkbox'
-              name='opciones'
-              value='opcion1'
+              checked={tipoAcceso === 'chofer'}
+              onChange={() => setTipoAcceso('chofer')}
               className='h-4 w-4'
-              />
-              Chofer
+            />
+            Chofer
           </label>
         </div>
 

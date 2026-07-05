@@ -1,34 +1,48 @@
+import { notFound } from 'next/navigation'
+
 import { Container } from '@/components/layout/Container'
-import Hero from '../layout/Hero'
-import { ThemeToggle } from '../ui/ThemeToggle'
-import { Button } from '../ui/Button'
-import LogoutButton from '../ui/LogoutButtons'
+import Hero from '@/components/layout/Hero'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import LogoutButton from '@/components/ui/LogoutButtons'
+
+import { getSession } from '@/lib/session'
+import { getEmployeeByLegajo } from '@/lib/employee'
+
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-import { redirect } from 'next/navigation'
 
-import { getEmployeeByLegajo } from '@/lib/employee'
-import { getSession } from '@/lib/session'
+interface PageProps {
+  params: Promise<{
+    usuario: string
+  }>
+}
 
-export default async function EmpleadoPage() {
+export default async function DashboardPage({ params }: PageProps) {
+  const { usuario } = await params
+
   const session = await getSession()
 
   if (!session) {
-    redirect('/login')
+    notFound()
   }
+
+  // Impide acceder al dashboard de otro usuario
+  //if (session.usuario !== usuario) {
+  //  notFound()
+  //}
 
   const empleado = await getEmployeeByLegajo(session.legajo)
 
   if (!empleado) {
-    redirect('/login')
+    notFound()
   }
 
   return (
     <Container>
       <Hero
-        imageLight='/images/bg.webp'
-        imageDark='/images/bg.webp'
-        alt='Hero background space'
+        imageLight='/images/bg-light.svg'
+        imageDark='/images/bg-dark.svg'
+        alt='Hero background'
         lightOpacity={0.7}
         variant='fixed'
       />
@@ -39,14 +53,14 @@ export default async function EmpleadoPage() {
             <ThemeToggle />
           </div>
 
-          <h1 className='mb-6 text-3xl font-bold'>Empleado autenticado</h1>
+          <h1 className='mb-6 text-3xl font-bold'>Dashboard</h1>
 
           <pre className='overflow-auto rounded-xl border border-border bg-surface p-6'>
             {JSON.stringify(empleado, null, 2)}
           </pre>
 
           <div className='mt-8 w-40 justify-center'>
-            <LogoutButton/>
+            <LogoutButton />
           </div>
         </div>
       </section>
