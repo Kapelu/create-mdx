@@ -1,6 +1,7 @@
 import { Container } from '@/components/layout/Container'
 import { ThemeToggle } from '../ui/ThemeToggle'
 import Hero from '../layout/Hero'
+import { Button } from '../ui/Button'
 import { redirect } from 'next/navigation'
 import { getEmployeeByLegajo } from '@/lib/employee'
 import { getSession } from '@/lib/session'
@@ -41,6 +42,8 @@ export default async function EmpleadoPage() {
             {JSON.stringify(empleado, null, 2)}
           </pre>
         </div>
+
+        <Button href='/'>salir</Button>
       </section>
     </Container>
   )
