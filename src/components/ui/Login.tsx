@@ -109,15 +109,24 @@ export default function Login() {
           />
         </div>
 
-        <div className='mt-1 flex items-center justify-start'>
-          <label className='flex cursor-pointer items-center gap-2 text-text text-muted'>
+        <div className='mt-1 flex items-center justify-between'>
+          <label className='flex cursor-pointer items-center pl-15 gap-2 text-text text-muted'>
+            Admin
             <Input
               type='checkbox'
               name='opciones'
               value='opcion1'
               className='h-4 w-4'
             />
-            Chofer
+          </label>
+          <label className='flex cursor-pointer items-center pr-15 gap-2 text-text text-muted'>
+            <Input
+              type='checkbox'
+              name='opciones'
+              value='opcion1'
+              className='h-4 w-4'
+              />
+              Chofer
           </label>
         </div>
 
@@ -128,8 +137,8 @@ export default function Login() {
         <Button
           type='submit'
           disabled={loading}
-          className='mt-6 h-11 w-full rounded-full bg-primary font-medium text-background transition-opacity hover:opacity-90'>
-          {loading ? 'Ingresando...' : 'Login'}
+          className='mt-6 h-11 w-full rounded-full bg-primary font-medium text-background transition-opacity hover:opacity-70'>
+          {loading ? 'Ingresando...' : 'Ingresar'}
         </Button>
       </form>
 
