@@ -19,7 +19,9 @@ export default function LoginPage() {
           <div className='absolute right-0 top-0 -translate-y-12'>
             <ThemeToggle />
           </div>
+
           <Login />
+
         </div>
       </section>
     </Container>

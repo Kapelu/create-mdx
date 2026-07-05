@@ -1,7 +1,9 @@
 'use client'
 
 import { ChangeEvent, FormEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Lock, User } from 'lucide-react'
+
 import { Input } from './Input'
 import { Button } from './Button'
 
@@ -11,10 +13,15 @@ interface FormData {
 }
 
 export default function Login() {
+  const router = useRouter()
+
   const [formData, setFormData] = useState<FormData>({
     user: '',
     password: '',
   })
+
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -23,12 +30,46 @@ export default function Login() {
       ...prev,
       [name]: value,
     }))
+
+    if (error) {
+      setError('')
+    }
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log('Login', formData)
+    if (loading) return
+
+    setLoading(true)
+    setError('')
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          usuario: formData.user,
+          password: formData.password,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message ?? 'Error al iniciar sesión.')
+        return
+      }
+
+      router.replace('/empleado')
+      router.refresh()
+    } catch {
+      setError('No fue posible conectar con el servidor.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -44,7 +85,6 @@ export default function Login() {
           Por favor, ingrese para continuar.
         </p>
 
-        {/* Usuario */}
         <div className='mt-8'>
           <Input
             type='text'
@@ -57,7 +97,6 @@ export default function Login() {
           />
         </div>
 
-        {/* Password */}
         <div className='mt-4'>
           <Input
             name='password'
@@ -82,15 +121,18 @@ export default function Login() {
           </label>
         </div>
 
-        {/* Submit */}
+        {error && (
+          <p className='mt-4 text-center text-sm text-red-500'>{error}</p>
+        )}
+
         <Button
           type='submit'
+          disabled={loading}
           className='mt-6 h-11 w-full rounded-full bg-primary font-medium text-background transition-opacity hover:opacity-90'>
-          Login
+          {loading ? 'Ingresando...' : 'Login'}
         </Button>
       </form>
 
-      {/* Background */}
       <div className='pointer-events-none fixed inset-0 -z-10 overflow-hidden'>
         <div className='absolute left-1/2 top-16 h-136 w-240 -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]' />
         <div className='absolute bottom-0 right-0 h-80 w-[20rem] rounded-full bg-secondary/15 blur-[100px]' />
