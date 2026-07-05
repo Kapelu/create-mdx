@@ -6,9 +6,16 @@ export async function POST() {
   try {
     await deleteSession()
 
-    return NextResponse.json({
-      success: true,
-    })
+    return NextResponse.json(
+      {
+        success: true,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      },
+    )
   } catch (error) {
     console.error(error)
 

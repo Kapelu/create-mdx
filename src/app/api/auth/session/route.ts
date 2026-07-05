@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server'
-
-import clientPromise from '@/lib/mongodb'
 import { getSession } from '@/lib/session'
 import { getEmployeeByLegajo } from '@/lib/employee'
-import type { Empleado } from '@/types/database'
 
 export async function GET() {
   try {

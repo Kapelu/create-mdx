@@ -6,11 +6,8 @@ const secret = new TextEncoder().encode(process.env.JWT_SECRET)
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('session')?.value
 
-  const { pathname } = request.nextUrl
-
-  // Si intenta acceder a /empleado sin cookie
   if (!token) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.rewrite(new URL('/404', request.url))
   }
 
   try {
@@ -18,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next()
   } catch {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.rewrite(new URL('/404', request.url))
   }
 }
 

@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Usuario o contraseña incorrectos.',
+          message: 'Usuario incorrectos.',
         },
         {
           status: 401,
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Usuario o contraseña incorrectos.',
+          message: 'Contraseña incorrectos.',
         },
         {
           status: 401,
