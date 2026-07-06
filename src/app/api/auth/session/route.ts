@@ -1,6 +1,6 @@
+import { getEmployeeByLegajo } from '@/lib/login/employee'
+import { getSession } from '@/lib/login/session'
 import { NextResponse } from 'next/server'
-import { getSession } from '@/lib/session'
-import { getEmployeeByLegajo } from '@/lib/employee'
 
 export async function GET() {
   try {

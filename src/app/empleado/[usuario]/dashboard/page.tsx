@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation'
 
 import { Container } from '@/components/layout/Container'
 import Hero from '@/components/layout/Hero'
+import LogoutButton from '@/components/ui/login/LogoutButtons'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import LogoutButton from '@/components/ui/LogoutButtons'
 
-import { getSession } from '@/lib/session'
-import { getEmployeeByLegajo } from '@/lib/employee'
+import { getEmployeeByLegajo } from '@/lib/login/employee'
+import { getSession } from '@/lib/login/session'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

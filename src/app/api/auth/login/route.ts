@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-import clientPromise from '@/lib/mongodb'
-import { comparePassword } from '@/lib/auth'
-import { createSession } from '@/lib/session'
+import { comparePassword } from '@/lib/login/auth'
+import clientPromise from '@/lib/login/mongodb'
+import { createSession } from '@/lib/login/session'
 
 import type { Usuario } from '@/types/database'
 

@@ -1,5 +1,5 @@
 'use client'
-import { AppConfig } from '@/lib/AppConfig'
+import { AppConfig } from '@/lib/app/AppConfig'
 import { useEffect } from 'react'
 
 export function ComeBack() {

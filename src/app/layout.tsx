@@ -1,10 +1,10 @@
-import type { Metadata } from 'next'
-import { ComeBack } from '@/components/ui/ComeBack'
-import { AppConfig } from '@/lib/AppConfig'
-import { gentium } from './fonts'
-import { Providers } from './providers'
 import Footer from '@/components/layout/Footer'
+import { ComeBack } from '@/components/ui/ComeBack'
+import { AppConfig } from '@/lib/app/AppConfig'
+import type { Metadata } from 'next'
+import { gentium } from './fonts'
 import './globals.css'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
   metadataBase: new URL(AppConfig.url),
@@ -87,6 +87,7 @@ export default function RootLayout({
   return (
     <html
       lang='es'
+      data-scroll-behavior='smooth'
       className={`scroll-smooth dark ${gentium.variable}`}
       suppressHydrationWarning>
       <body className='font-gentium bg-background text-text'>

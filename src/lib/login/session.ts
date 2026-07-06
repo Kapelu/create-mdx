@@ -1,5 +1,5 @@
+import { createToken, verifyToken, type SessionPayload } from '@/lib/login/auth'
 import { cookies } from 'next/headers'
-import { createToken, verifyToken, type SessionPayload } from '@/lib/auth'
 
 const COOKIE_NAME = 'session'
 

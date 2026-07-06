@@ -1,11 +1,11 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Lock, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { ChangeEvent, FormEvent, useState } from 'react'
 
-import { Input } from './Input'
-import { Button } from './Button'
+import { Button } from '../Button'
+import { Input } from '../Input'
 
 interface FormData {
   user: string

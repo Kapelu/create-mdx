@@ -1,4 +1,4 @@
-import clientPromise from '@/lib/mongodb'
+import clientPromise from '@/lib/login/mongodb'
 
 import type { Empleado } from '@/types/database'
 
