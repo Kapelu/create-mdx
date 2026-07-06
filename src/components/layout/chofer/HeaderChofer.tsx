@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
-import { Logo } from '../ui/Logo'
-import { ThemeToggle } from '../ui/ThemeToggle'
-import { Container } from './Container'
+import { Logo } from '../../ui/Logo'
+import { ThemeToggle } from '../../ui/ThemeToggle'
+import { Container } from '../Container'
 
 const links = [
   { label: 'Inicio', href: '/' },
@@ -15,7 +15,7 @@ const links = [
   { label: 'Upload', href: '/upload' },
 ]
 
-export default function Header() {
+export default function HeaderChofer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
