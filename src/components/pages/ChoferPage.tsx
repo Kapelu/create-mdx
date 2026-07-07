@@ -11,8 +11,8 @@ export default function ChoferPage({ empleado }: ChoferPageProps) {
   return (
     <Container>
       <Hero
-        imageLight='/images/bg.webp'
-        imageDark='/images/bg.webp'
+        imageLight='/images/login-bg.webp'
+        imageDark='/images/login-bg.webp'
         alt='Hero background space'
         lightOpacity={0.7}
         variant='fixed'
