@@ -7,7 +7,7 @@ type LoaderSimpsonProps = {
   className?: string
 }
 
-export default function LoaderSimpson({
+export default function Loader({
   color1 = '#ffffff',
   color2 = '#ff3d00',
   size = 48,
