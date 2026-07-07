@@ -12,8 +12,6 @@ interface FormData {
   password: string
 }
 
-type TipoAcceso = 'admin' | 'chofer' | null
-
 export default function Login() {
   const router = useRouter()
 
@@ -21,8 +19,6 @@ export default function Login() {
     user: '',
     password: '',
   })
-
-  const [tipoAcceso, setTipoAcceso] = useState<TipoAcceso>(null)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -45,11 +41,6 @@ export default function Login() {
 
     if (loading) return
 
-    if (!tipoAcceso) {
-      setError('Debe seleccionar Admin o Chofer.')
-      return
-    }
-
     setLoading(true)
     setError('')
 
@@ -62,7 +53,6 @@ export default function Login() {
         body: JSON.stringify({
           usuario: formData.user,
           password: formData.password,
-          tipoAcceso,
         }),
       })
 
@@ -91,11 +81,11 @@ export default function Login() {
           Login
         </h1>
 
-        <p className='mt-2 text-center text-sm text-muted'>
+        <p className='mt-6 text-center text-sm text-muted'>
           Por favor, ingrese para continuar.
         </p>
 
-        <div className='mt-8'>
+        <div className='mt-4'>
           <Input
             type='text'
             name='user'
@@ -119,28 +109,6 @@ export default function Login() {
           />
         </div>
 
-        <div className='mt-1 flex items-center justify-between'>
-          <label className='flex cursor-pointer items-center gap-2 pl-15 text-muted'>
-            Admin
-            <Input
-              type='checkbox'
-              checked={tipoAcceso === 'admin'}
-              onChange={() => setTipoAcceso('admin')}
-              className='h-4 w-4'
-            />
-          </label>
-
-          <label className='flex cursor-pointer items-center gap-2 pr-15 text-muted'>
-            <Input
-              type='checkbox'
-              checked={tipoAcceso === 'chofer'}
-              onChange={() => setTipoAcceso('chofer')}
-              className='h-4 w-4'
-            />
-            Chofer
-          </label>
-        </div>
-
         {error && (
           <p className='mt-4 text-center text-sm text-red-500'>{error}</p>
         )}
@@ -148,7 +116,7 @@ export default function Login() {
         <Button
           type='submit'
           disabled={loading}
-          className='mt-6 h-11 w-full rounded-full bg-primary font-medium text-background transition-opacity hover:opacity-70'>
+          className='mt-12 h-11 w-full rounded-full bg-primary font-medium text-background transition-opacity hover:opacity-70'>
           {loading ? 'Ingresando...' : 'Ingresar'}
         </Button>
       </form>

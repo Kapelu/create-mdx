@@ -4,19 +4,19 @@ import { comparePassword } from '@/lib/login/auth'
 import clientPromise from '@/lib/login/mongodb'
 import { createSession } from '@/lib/login/session'
 
-import type { Usuario } from '@/types/database'
+import type { Empleado, Usuario } from '@/types/database'
 
 const ADMIN_PUESTOS = ['Gerencia', 'Logística', 'RRHH']
 
 export async function POST(request: Request) {
   try {
-    const { usuario, password, tipoAcceso } = await request.json()
+    const { usuario, password } = await request.json()
 
-    if (!usuario || !password || !tipoAcceso) {
+    if (!usuario || !password) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Debe ingresar usuario, contraseña y tipo de acceso.',
+          message: 'Debe ingresar usuario y contraseña.',
         },
         {
           status: 400,
@@ -25,14 +25,14 @@ export async function POST(request: Request) {
     }
 
     const client = await clientPromise
-
     const db = client.db(process.env.MONGODB_DB)
 
     const usuarios = db.collection<Usuario>('usuarios')
+    const empleados = db.collection<Empleado>('empleados')
 
+    // Buscar usuario para autenticar
     const user = await usuarios.findOne({
       usuario,
-      activo: true,
     })
 
     if (!user) {
@@ -47,6 +47,7 @@ export async function POST(request: Request) {
       )
     }
 
+    // Validar contraseña
     const passwordCorrecta = await comparePassword(password, user.password)
 
     if (!passwordCorrecta) {
@@ -61,44 +62,51 @@ export async function POST(request: Request) {
       )
     }
 
-    // Validación del tipo de acceso
-    if (tipoAcceso === 'admin') {
-      if (!ADMIN_PUESTOS.includes(user.puesto)) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: 'Debe ingresar por Chofer.',
-          },
-          {
-            status: 403,
-          },
-        )
-      }
-    }
-
-    if (tipoAcceso === 'chofer') {
-      if (user.puesto !== 'Chofer') {
-        return NextResponse.json(
-          {
-            success: false,
-            message: 'Debe ingresar por Administrador.',
-          },
-          {
-            status: 403,
-          },
-        )
-      }
-    }
-
-    await createSession({
+    // Buscar el empleado asociado
+    const empleado = await empleados.findOne({
       legajo: user.legajo,
-      usuario: user.usuario,
-      puesto: user.puesto,
     })
+
+    if (!empleado) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'No existe un empleado asociado a este usuario.',
+        },
+        {
+          status: 404,
+        },
+      )
+    }
+
+    // Validar que el empleado esté activo
+    if (!empleado.activo) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'El empleado se encuentra inactivo.',
+        },
+        {
+          status: 403,
+        },
+      )
+    }
+
+    // Crear sesión
+    await createSession({
+      legajo: empleado.legajo,
+      usuario: user.usuario,
+      puesto: empleado.puesto,
+    })
+
+    // Decidir automáticamente el destino
+    const redirectTo = ADMIN_PUESTOS.includes(empleado.puesto)
+      ? `/empleado/${user.usuario}/dashboard`
+      : `/empleado/${user.usuario}/main`
 
     return NextResponse.json({
       success: true,
-      redirectTo: `/empleado/${user.usuario}/dashboard`,
+      redirectTo,
     })
   } catch (error) {
     console.error(error)

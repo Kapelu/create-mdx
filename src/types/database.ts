@@ -1,10 +1,7 @@
 export interface Usuario {
   legajo: number
   usuario: string
-  email: string
   password: string
-  puesto: string
-  activo: boolean
 }
 
 export interface Empleado {

@@ -17,7 +17,7 @@ export async function proxy(request: NextRequest) {
 
     const pathname = request.nextUrl.pathname
 
-    const match = pathname.match(/^\/empleado\/([^/]+)\/dashboard$/)
+    const match = pathname.match(/^\/empleado\/([^/]+)(\/.*)?$/)
 
     if (!match) {
       return NextResponse.rewrite(new URL('/404', request.url))

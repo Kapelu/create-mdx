@@ -2,13 +2,11 @@ import { notFound } from 'next/navigation'
 
 import { Container } from '@/components/layout/Container'
 import Hero from '@/components/layout/Hero'
-import AdminDashboard from '@/components/pages/adminDashboard'
+import ChoferPage from '@/components/pages/ChoferPage'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 import { getEmployeeByLegajo } from '@/lib/login/employee'
 import { getSession } from '@/lib/login/session'
-
-const ADMIN_PUESTOS = ['Gerencia', 'Logística', 'RRHH']
 
 interface PageProps {
   params: Promise<{
@@ -16,7 +14,7 @@ interface PageProps {
   }>
 }
 
-export default async function DashboardPage({ params }: PageProps) {
+export default async function MainPage({ params }: PageProps) {
   const { usuario } = await params
 
   const session = await getSession()
@@ -35,7 +33,7 @@ export default async function DashboardPage({ params }: PageProps) {
     notFound()
   }
 
-  if (!ADMIN_PUESTOS.includes(empleado.puesto)) {
+  if (empleado.puesto !== 'Chofer') {
     notFound()
   }
 
@@ -54,7 +52,7 @@ export default async function DashboardPage({ params }: PageProps) {
           <ThemeToggle />
         </div>
 
-        <AdminDashboard empleado={empleado} />
+        <ChoferPage empleado={empleado} />
       </section>
     </Container>
   )
