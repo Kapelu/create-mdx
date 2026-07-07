@@ -16,7 +16,8 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Debe ingresar usuario y contraseña.',
+          icon: 'warning',
+          messages: ['Debe ingresar usuario y contraseña.'],
         },
         {
           status: 400,
@@ -30,7 +31,6 @@ export async function POST(request: Request) {
     const usuarios = db.collection<Usuario>('usuarios')
     const empleados = db.collection<Empleado>('empleados')
 
-    // Buscar usuario para autenticar
     const user = await usuarios.findOne({
       usuario,
     })
@@ -39,7 +39,8 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Usuario incorrecto.',
+          icon: 'error',
+          messages: ['Usuario incorrecto.'],
         },
         {
           status: 401,
@@ -47,14 +48,14 @@ export async function POST(request: Request) {
       )
     }
 
-    // Validar contraseña
     const passwordCorrecta = await comparePassword(password, user.password)
 
     if (!passwordCorrecta) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Contraseña incorrecta.',
+          icon: 'error',
+          messages: ['Contraseña incorrecta.'],
         },
         {
           status: 401,
@@ -62,7 +63,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // Buscar el empleado asociado
     const empleado = await empleados.findOne({
       legajo: user.legajo,
     })
@@ -71,7 +71,8 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: 'No existe un empleado asociado a este usuario.',
+          icon: 'warning',
+          messages: ['No existe un empleado asociado a este usuario.'],
         },
         {
           status: 404,
@@ -79,12 +80,12 @@ export async function POST(request: Request) {
       )
     }
 
-    // Validar que el empleado esté activo
     if (!empleado.activo) {
       return NextResponse.json(
         {
           success: false,
-          message: 'El empleado se encuentra inactivo.',
+          icon: 'warning',
+          messages: ['El empleado se encuentra inactivo.'],
         },
         {
           status: 403,
@@ -92,14 +93,12 @@ export async function POST(request: Request) {
       )
     }
 
-    // Crear sesión
     await createSession({
       legajo: empleado.legajo,
       usuario: user.usuario,
       puesto: empleado.puesto,
     })
 
-    // Decidir automáticamente el destino
     const redirectTo = ADMIN_PUESTOS.includes(empleado.puesto)
       ? `/empleado/${user.usuario}/dashboard`
       : `/empleado/${user.usuario}/main`
@@ -114,7 +113,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: 'Error interno del servidor.',
+        icon: 'error',
+        messages: ['Error interno del servidor.'],
       },
       {
         status: 500,

@@ -4,6 +4,9 @@ import { Lock, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
+import { useModal } from '@/components/providers/ModalProvider'
+import { handleApiResponse } from '@/lib/app/api'
+
 import { Button } from '../Button'
 import { Input } from '../Input'
 
@@ -12,8 +15,14 @@ interface FormData {
   password: string
 }
 
+interface LoginResponse {
+  success: boolean
+  redirectTo: string
+}
+
 export default function Login() {
   const router = useRouter()
+  const { showModal } = useModal()
 
   const [formData, setFormData] = useState<FormData>({
     user: '',
@@ -21,7 +30,6 @@ export default function Login() {
   })
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -30,10 +38,6 @@ export default function Login() {
       ...prev,
       [name]: value,
     }))
-
-    if (error) {
-      setError('')
-    }
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -42,7 +46,6 @@ export default function Login() {
     if (loading) return
 
     setLoading(true)
-    setError('')
 
     try {
       const response = await fetch('/api/auth/login', {
@@ -56,17 +59,17 @@ export default function Login() {
         }),
       })
 
-      const data = await response.json()
+      const data = await handleApiResponse<LoginResponse>(response, showModal)
 
-      if (!response.ok) {
-        setError(data.message ?? 'Error al iniciar sesión.')
-        return
-      }
+      if (!data) return
 
       router.replace(data.redirectTo)
       router.refresh()
     } catch {
-      setError('No fue posible conectar con el servidor.')
+      showModal({
+        icon: 'error',
+        messages: ['No fue posible conectar con el servidor.'],
+      })
     } finally {
       setLoading(false)
     }
@@ -108,10 +111,6 @@ export default function Login() {
             required
           />
         </div>
-
-        {error && (
-          <p className='mt-4 text-center text-sm text-red-500'>{error}</p>
-        )}
 
         <Button
           type='submit'

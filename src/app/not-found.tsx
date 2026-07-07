@@ -32,6 +32,7 @@ export default function NotFound() {
         alt='Moon'
         width={140}
         height={140}
+        loading='eager'
         className='absolute top-12 right-2 z-5 h-auto animate-float opacity-90 md:top-24 md:right-30 md:w-50'
       />
 

@@ -22,7 +22,8 @@ export async function POST() {
     return NextResponse.json(
       {
         success: false,
-        message: 'Error al cerrar la sesión.',
+        icon: 'error',
+        messages: ['Error al cerrar la sesión.'],
       },
       {
         status: 500,

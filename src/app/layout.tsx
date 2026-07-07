@@ -1,4 +1,5 @@
 import Footer from '@/components/layout/Footer'
+import { ModalProvider } from '@/components/providers/ModalProvider'
 import { ComeBack } from '@/components/ui/ComeBack'
 import { AppConfig } from '@/lib/app/AppConfig'
 import type { Metadata } from 'next'
@@ -92,15 +93,17 @@ export default function RootLayout({
       suppressHydrationWarning>
       <body className='font-gentium bg-background text-text'>
         <Providers>
-          <div className='flex min-h-screen flex-col'>
-            <ComeBack />
+          <ModalProvider>
+            <div className='flex min-h-screen flex-col'>
+              <ComeBack />
 
-            <main id='main-content' className='flex-1'>
-              {children}
-            </main>
+              <main id='main-content' className='flex-1'>
+                {children}
+              </main>
 
-            <Footer />
-          </div>
+              <Footer />
+            </div>
+          </ModalProvider>
         </Providers>
       </body>
     </html>

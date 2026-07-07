@@ -1,6 +1,7 @@
+import { NextResponse } from 'next/server'
+
 import { getEmployeeByLegajo } from '@/lib/login/employee'
 import { getSession } from '@/lib/login/session'
-import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
@@ -10,7 +11,8 @@ export async function GET() {
       return NextResponse.json(
         {
           success: false,
-          message: 'No autenticado.',
+          icon: 'warning',
+          messages: ['No autenticado.'],
         },
         {
           status: 401,
@@ -24,7 +26,8 @@ export async function GET() {
       return NextResponse.json(
         {
           success: false,
-          message: 'Empleado no encontrado.',
+          icon: 'warning',
+          messages: ['Empleado no encontrado.'],
         },
         {
           status: 404,
@@ -42,7 +45,8 @@ export async function GET() {
     return NextResponse.json(
       {
         success: false,
-        message: 'Error interno del servidor.',
+        icon: 'error',
+        messages: ['Error interno del servidor.'],
       },
       {
         status: 500,
