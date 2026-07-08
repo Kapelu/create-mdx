@@ -1,61 +1,22 @@
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
-import { Container } from '@/components/layout/Container'
-import Hero from '@/components/layout/Hero'
-import AdminDashboard from '@/components/pages/adminDashboard'
-import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import AdminDashboard from '@/components/pages/AdminDashboard'
 
-import { getEmployeeByLegajo } from '@/lib/login/employee'
 import { getSession } from '@/lib/login/session'
+import { getEmployeeByLegajo } from '@/lib/login/employee'
 
-const ADMIN_PUESTOS = ['Gerencia', 'Logística', 'RRHH']
-
-interface PageProps {
-  params: Promise<{
-    usuario: string
-  }>
-}
-
-export default async function DashboardPage({ params }: PageProps) {
-  const { usuario } = await params
-
+export default async function DashboardPage() {
   const session = await getSession()
 
   if (!session) {
-    notFound()
-  }
-
-  if (session.usuario !== usuario) {
-    notFound()
+    redirect('/login')
   }
 
   const empleado = await getEmployeeByLegajo(session.legajo)
 
   if (!empleado) {
-    notFound()
+    redirect('/login')
   }
 
-  if (!ADMIN_PUESTOS.includes(empleado.puesto)) {
-    notFound()
-  }
-
-  return (
-    <Container>
-      <Hero
-        imageLight='/images/bg-light.svg'
-        imageDark='/images/bg-dark.svg'
-        alt='Hero background'
-        lightOpacity={0.7}
-        variant='fixed'
-      />
-
-      <section className='relative flex min-h-screen items-center justify-center'>
-        <div className='absolute right-6 top-6'>
-          <ThemeToggle />
-        </div>
-
-        <AdminDashboard empleado={empleado} />
-      </section>
-    </Container>
-  )
+  return <AdminDashboard empleado={empleado} />
 }

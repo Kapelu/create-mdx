@@ -1,55 +1,55 @@
-import Image from 'next/image'
-import clsx from 'clsx'
+'use client'
 
-type HeroProps = {
-  imageLight: `/${string}`
-  imageDark: `/${string}`
+import Image from 'next/image'
+
+interface HeroProps {
+  imageLight: string
+  imageDark?: string
   alt?: string
   lightOpacity?: number
   darkOpacity?: number
-  className?: string
   variant?: 'default' | 'fixed'
+  zIndex?: string
+  sizes?: string
 }
 
 export default function Hero({
   imageLight,
   imageDark,
   alt = '',
-  lightOpacity,
-  darkOpacity,
-  className,
+  lightOpacity = 0.3,
+  darkOpacity = 0.3,
   variant = 'default',
+  zIndex = 'z-0',
+  sizes = '100vw',
 }: HeroProps) {
   return (
     <div
-      className={clsx(
-        variant === 'fixed' ? 'fixed inset-0 -z-10' : 'absolute inset-0 -z-10',
-        'overflow-hidden',
-        className,
-      )}>
-      {/* Light mode */}
+      className={[
+        variant === 'fixed' ? 'fixed inset-0' : 'absolute inset-0',
+        zIndex,
+        'overflow-hidden pointer-events-none',
+      ].join(' ')}
+      aria-hidden='true'>
       <Image
         src={imageLight}
         alt={alt}
         fill
-        sizes='100dvw'
         priority
-        style={{ opacity: lightOpacity ?? 0.3 }}
+        sizes={sizes}
+        style={{ opacity: lightOpacity }}
         className='object-cover dark:hidden'
       />
 
-      {/* Dark mode */}
       <Image
-        src={imageDark}
+        src={imageDark ?? imageLight}
         alt={alt}
         fill
-        sizes='100dvw'
         priority
-        style={{ opacity: darkOpacity ?? 0.3 }}
+        sizes={sizes}
+        style={{ opacity: darkOpacity }}
         className='hidden object-cover dark:block'
       />
-
-      <div className='absolute inset-0 bg-black/10' />
     </div>
   )
 }

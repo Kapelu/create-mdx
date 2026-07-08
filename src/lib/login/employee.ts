@@ -11,8 +11,14 @@ export async function getEmployeeByLegajo(
 
   const empleados = db.collection<Empleado>('empleados')
 
-  return await empleados.findOne({
+  const empleado = await empleados.findOne({
     legajo,
     activo: true,
   })
+
+  if (!empleado) {
+    return null
+  }
+
+  return JSON.parse(JSON.stringify(empleado)) as Empleado
 }
