@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 
 import { Container } from '@/components/layout/Container'
 import Hero from '@/components/layout/Hero'
-import ChoferPage from '@/components/pages/ChoferPage'
+import ChoferPage from '@/components/pages/ChoferDashboard'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 import { getEmployeeByLegajo } from '@/lib/login/employee'

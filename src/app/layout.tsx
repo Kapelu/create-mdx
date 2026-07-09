@@ -1,11 +1,11 @@
 import Footer from '@/components/layout/Footer'
-import { ModalProvider } from '@/components/providers/ModalProvider'
+import { ModalProvider } from '@/components/layout/ModalProvider'
 import { ComeBack } from '@/components/ui/ComeBack'
 import { AppConfig } from '@/lib/app/AppConfig'
 import type { Metadata } from 'next'
-import { gentium } from './fonts'
+import { Providers } from '../components/layout/providers'
+import { gentium } from '../lib/fonts'
 import './globals.css'
-import { Providers } from './providers'
 
 export const metadata: Metadata = {
   metadataBase: new URL(AppConfig.url),

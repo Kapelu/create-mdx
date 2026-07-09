@@ -4,11 +4,11 @@ import { Lock, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, FormEvent, useState } from 'react'
 
-import { useModal } from '@/components/providers/ModalProvider'
+import { useModal } from '@/components/layout/ModalProvider'
 import { handleApiResponse } from '@/lib/app/api'
 
 import { Button } from '../Button'
-import { Input } from '../Input'
+import { Input } from '../components/Input'
 
 interface FormData {
   user: string

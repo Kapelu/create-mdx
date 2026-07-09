@@ -1,0 +1,66 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+import { Users } from 'lucide-react'
+
+interface HeaderLink {
+  label: string
+  href: string
+}
+
+interface HeaderProps {
+  title: string
+  subtitle: string
+  links: HeaderLink[]
+}
+
+export default function Header({
+  title,
+  subtitle,
+  links,
+}: HeaderProps) {
+  const pathname = usePathname()
+
+  return (
+    <header className='mb-6 overflow-hidden rounded-xl border border-border bg-surface shadow-lg'>
+      <div className='relative flex items-center bg-linear-to-r from-surface via-surface to-surface-2 px-8 py-6'>
+        <div className='flex h-16 w-16 items-center justify-center rounded-xl  bg-background shadow-sm'>
+          <Users size={34} className='text-primary' />
+        </div>
+
+        <div className='flex flex-1 flex-col items-center text-center'>
+          <h2 className='text-3xl font-bold tracking-wide text-heading'>
+            {title}
+          </h2>
+
+          <p className='mt-2 text-sm tracking-wide text-muted'>{subtitle}</p>
+        </div>
+
+        <div className='h-16 w-16' />
+      </div>
+
+      <div className='h-px bg-border' />
+
+      <nav className='flex h-16 items-center justify-center gap-5 bg-background'>
+        {links.map((link) => {
+          const isActive = pathname === link.href
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`rounded-xl border px-6 py-2 font-semibold transition-all duration-300 ${
+                isActive
+                  ? 'border-primary bg-primary text-background shadow-md'
+                  : 'border-transparent text-heading hover:border-border hover:bg-surface-2 hover:shadow-sm'
+              }`}>
+              {link.label}
+            </Link>
+          )
+        })}
+      </nav>
+    </header>
+  )
+}

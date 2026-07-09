@@ -1,4 +1,4 @@
-import type { ModalOptions } from '@/components/providers/ModalProvider'
+import type { ModalOptions } from '@/components/layout/ModalProvider'
 
 type ShowModal = (options: ModalOptions) => void
 
