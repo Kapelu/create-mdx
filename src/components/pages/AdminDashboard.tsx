@@ -4,6 +4,8 @@ import type { Empleado } from '@/types/database'
 import LogoutButton from '@/components/ui/login/LogoutButtons'
 import { ThemeToggle } from '../ui/ThemeToggle'
 import EmpleadosPage from './admin/EmpleadosPage'
+import TractorPage from './admin/TractorPages'
+
 import Hero from '../layout/Hero'
 import Fecha from '../ui/Fecha'
 import Hora from '../ui/Hora'
@@ -21,10 +23,10 @@ export default function AdminDashboard({ empleado }: AdminDashboardProps) {
     }
 
     if (puesto === 'log') {
-      return ['Camión', 'Semi', 'Viajes', 'Salir']
+      return ['tractor', 'Semi', 'Viajes', 'Salir']
     }
 
-    return ['Empleados', 'Camión', 'Semi', 'Viajes', 'Salir']
+    return ['Empleados', 'tractor', 'Semi', 'Viajes', 'Salir']
   }, [puesto])
 
   const [activo, setActivo] = useState(menu[0])
@@ -92,11 +94,7 @@ export default function AdminDashboard({ empleado }: AdminDashboardProps) {
             <div className='relative z-10 flex h-full items-center justify-center p-8'>
               {activo === 'Empleados' && <EmpleadosPage />}
 
-              {activo === 'Camión' && (
-                <div className='flex flex-col items-center'>
-                  <h1 className='text-4xl font-bold'>Camión</h1>
-                </div>
-              )}
+              {activo === 'tractor' && <TractorPage />}
 
               {activo === 'Semi' && (
                 <div className='flex flex-col items-center'>

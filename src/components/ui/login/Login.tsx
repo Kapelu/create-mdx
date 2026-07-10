@@ -8,7 +8,7 @@ import { useModal } from '@/components/layout/ModalProvider'
 import { handleApiResponse } from '@/lib/app/api'
 
 import { Button } from '../Button'
-import { Input } from '../components/Input'
+import { Input } from '../components/InputLogin'
 
 interface FormData {
   user: string

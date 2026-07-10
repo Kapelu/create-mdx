@@ -13,14 +13,15 @@ const links = [
 
 export default function EmpleadosPage() {
   return (
-    
     <Escritorio>
       <main className='grid gap-1'>
         <Header
+          icon={Users}
           title='Administración de Empleados'
           subtitle='Gestión de altas y datos del personal'
           links={links}
         />
+        
         <AltaEmpleado />
       </main>
     </Escritorio>

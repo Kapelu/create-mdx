@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
-import { Users } from 'lucide-react'
+import { LucideIcon } from 'lucide-react'
 
 interface HeaderLink {
   label: string
@@ -14,20 +13,22 @@ interface HeaderProps {
   title: string
   subtitle: string
   links: HeaderLink[]
+  icon: LucideIcon
 }
 
 export default function Header({
   title,
   subtitle,
   links,
+  icon: Icon,
 }: HeaderProps) {
   const pathname = usePathname()
 
   return (
     <header className='mb-6 overflow-hidden rounded-xl border border-border bg-surface shadow-lg'>
       <div className='relative flex items-center bg-linear-to-r from-surface via-surface to-surface-2 px-8 py-6'>
-        <div className='flex h-16 w-16 items-center justify-center rounded-xl  bg-background shadow-sm'>
-          <Users size={34} className='text-primary' />
+        <div className='flex h-16 w-16 items-center justify-center rounded-xl bg-background shadow-sm'>
+          <Icon size={34} className='text-primary' />
         </div>
 
         <div className='flex flex-1 flex-col items-center text-center'>
@@ -63,4 +64,32 @@ export default function Header({
       </nav>
     </header>
   )
+}
+
+{
+  /*
+  USO:
+  import { Users, Truck, ClipboardList } from 'lucide-react'
+
+  <Header
+    title='Empleados'
+    subtitle='Administración de empleados'
+    icon={Users}
+    links={links}
+  />
+
+  <Header
+    title='Camiones'
+    subtitle='Administración de camiones'
+    icon={Truck}
+    links={links}
+  />
+
+  <Header
+    title='Viajes'
+    subtitle='Administración de viajes'
+    icon={ClipboardList}
+    links={links}
+  />
+*/
 }
