@@ -12,6 +12,7 @@ export default function LoginPage() {
         alt='Hero background space'
         lightOpacity={0.7}
         variant='fixed'
+        sizes='calc(100vw - 16rem)'
       />
 
       <section className='relative flex min-h-screen items-center justify-center'>

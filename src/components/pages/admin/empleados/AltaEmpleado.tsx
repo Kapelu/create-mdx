@@ -1,22 +1,22 @@
 'use client'
-import FormSection from '@/components/ui/FormSection'
-import FormInput from '@/components/ui/FormInput'
-import FormSelect from '@/components/ui/FormSelect'
-import { Button } from '@/components/ui/Button'
+
+import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import {
   Eye,
   EyeOff,
   FileImage,
+  House,
   Lock,
+  NotebookTabs,
+  Phone,
   User,
   Users,
-  UserPlus,
-  NotebookTabs,
-  House,
-  Phone,
 } from 'lucide-react'
 
-import { useRef, useState, type ChangeEvent } from 'react'
+import { Button } from '@/components/ui/Button'
+import FormInput from '@/components/ui/FormInput'
+import FormSection from '@/components/ui/FormSection'
+import FormSelect from '@/components/ui/FormSelect'
 
 export default function AltaEmpleado() {
   const [mostrarPassword, setMostrarPassword] = useState(false)
@@ -24,216 +24,334 @@ export default function AltaEmpleado() {
 
   const imagenRef = useRef<HTMLInputElement>(null)
 
+  useEffect(() => {
+    return () => {
+      if (imagen) {
+        URL.revokeObjectURL(imagen)
+      }
+    }
+  }, [imagen])
+
   const handleImagen = (e: ChangeEvent<HTMLInputElement>) => {
     const archivo = e.target.files?.[0]
 
     if (!archivo) return
 
-    const url = URL.createObjectURL(archivo)
+    if (imagen) {
+      URL.revokeObjectURL(imagen)
+    }
 
-    setImagen(url)
+    setImagen(URL.createObjectURL(archivo))
+  }
+
+  const handleReset = () => {
+    if (imagen) {
+      URL.revokeObjectURL(imagen)
+    }
+
+    setImagen(null)
+    setMostrarPassword(false)
+
+    if (imagenRef.current) {
+      imagenRef.current.value = ''
+    }
   }
 
   return (
-    <section className=' rounded-xl border border-border bg-surface'>
-      <header className='flex items-center gap-3 border-b border-border px-8 py-5'>
-        <UserPlus className='text-primary' size={28} />
+    <form className='space-y-6 p-6'>
+      <FormSection
+        title='Datos de Acceso'
+        icon={Lock}
+        iconClassName='text-blue-500'>
+        <div className='grid grid-cols-12 gap-5'>
+          <FormInput
+            label='Legajo'
+            name='legajo'
+            type='number'
+            className='col-span-3'
+            required
+          />
 
-        <h1 className='text-2xl font-semibold text-heading'>
-          Alta de Empleado
-        </h1>
-      </header>
+          <FormInput
+            label='Usuario'
+            name='usuario'
+            className='col-span-4'
+            required
+          />
 
-      <form className='space-y-8 p-8 pb-28'>
-        {/* DATOS ACCESO */}
-        <FormSection
-          title='Datos de Acceso'
-          icon={Lock}
-          iconClassName='text-blue-500'>
-          <div className='grid grid-cols-12 gap-5'>
-            <FormInput label='Legajo' className='col-span-2' required />
-            <FormInput label='Usuario' className='col-span-5' required />
-            <FormInput
-              label='Contraseña'
-              type={mostrarPassword ? 'text' : 'password'}
-              className='col-span-5'
-              required
-              icon={
-                <button
-                  type='button'
-                  onClick={() => setMostrarPassword(!mostrarPassword)}
-                  className='text-muted'>
-                  {mostrarPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              }
-            />
+          <FormInput
+            label='Contraseña'
+            name='password'
+            type={mostrarPassword ? 'text' : 'password'}
+            className='col-span-5'
+            required
+            icon={
+              <button
+                type='button'
+                onClick={() => setMostrarPassword((prev) => !prev)}
+                className='flex items-center justify-center text-muted transition hover:text-heading'
+                aria-label={
+                  mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                }>
+                {mostrarPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            }
+          />
 
-            <FormSelect label='Puesto' className='col-span-6' required>
-              <option value=''>Seleccionar...</option>
-              <option>RRHH</option>
-              <option>Logística</option>
-              <option>Gerencia</option>
-              <option>Chofer</option>
-              <option>Mecánico</option>
-            </FormSelect>
-            <FormInput
-              label='Fecha de Ingreso'
-              type='date'
-              className='col-span-3'
-            />
+          <FormSelect
+            label='Puesto'
+            name='puesto'
+            className='col-span-5'
+            defaultValue=''
+            required>
+            <option value='' disabled>
+              Seleccionar...
+            </option>
+            <option value='RRHH'>RRHH</option>
+            <option value='Logística'>Logística</option>
+            <option value='Gerencia'>Gerencia</option>
+            <option value='Chofer'>Chofer</option>
+            <option value='Mecánico'>Mecánico</option>
+          </FormSelect>
 
-            <div className='col-span-3 flex items-end'>
-              <label className='flex h-12 items-center gap-3 rounded-xl border border-border px-5'>
-                <input type='checkbox' defaultChecked required />
-                Activar
-              </label>
-            </div>
-          </div>
-        </FormSection>
+          <FormInput
+            label='Fecha de Ingreso'
+            name='fechaIngreso'
+            type='date'
+            className='col-span-4'
+            required
+          />
 
-        {/* CONTACTO */}
-        <FormSection
-          title='Contacto'
-          icon={Phone}
-          iconClassName='text-blue-500'>
-          <div className='grid grid-cols-2 gap-5'>
-            <FormInput label='Email' type='email' required />
-            <FormInput label='Teléfono' type='tel' required />
-          </div>
-        </FormSection>
-        {/* DATOS PERSONALES */}
-        <FormSection
-          title='Datos Personales'
-          icon={User}
-          iconClassName='text-blue-500'>
-          <div className='space-y-8'>
-            {/* DATOS PERSONALES */}
-            <div className='grid grid-cols-12 gap-6'>
-              <FormInput label='DNI' className='col-span-4' />
-
-              <FormInput
-                label='Fecha Nacimiento'
-                type='date'
-                className='col-span-4'
+          <div className='col-span-3 flex items-end'>
+            <label className='flex h-12 w-full cursor-pointer items-center gap-3 rounded-xl border border-border bg-background px-5 text-sm font-medium text-heading'>
+              <input
+                type='checkbox'
+                name='activo'
+                defaultChecked
+                className='h-4 w-4 rounded border-border accent-primary'
               />
-
-              <div className='col-span-4 col-start-9 row-span-2 flex justify-center'>
-                {!imagen ? (
-                  <div className='w-full'>
-                    <label className='mb-2 block text-sm font-medium text-heading'>
-                      Imagen
-                    </label>
-
-                    <input
-                      ref={imagenRef}
-                      hidden
-                      type='file'
-                      accept='image/*'
-                      onChange={handleImagen}
-                    />
-
-                    <button
-                      type='button'
-                      onClick={() => imagenRef.current?.click()}
-                      className='flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-border transition hover:bg-surface-2'>
-                      <FileImage size={18} />
-                      Cargar imagen
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <input
-                      ref={imagenRef}
-                      hidden
-                      type='file'
-                      accept='image/*'
-                      onChange={handleImagen}
-                    />
-
-                    <button
-                      type='button'
-                      onClick={() => imagenRef.current?.click()}
-                      className='overflow-hidden rounded-xl'>
-                      <img
-                        src={imagen}
-                        alt='Empleado'
-                        className='h-45 w-40 rounded-xl object-cover transition hover:opacity-80'
-                      />
-                    </button>
-                  </>
-                )}
-              </div>
-
-              <FormInput label='Apellido' className='col-span-4' />
-
-              <FormInput label='Nombres' className='col-span-4' />
-            </div>
-
-            {/* DIRECCIÓN */}
-            <FormSection title='Dirección' icon={House}>
-              <div className='grid grid-cols-2 gap-6'>
-                <FormInput label='Calle' />
-                <FormInput label='Número' />
-                <FormInput label='Piso' />
-                <FormInput label='Departamento' />
-                <FormInput label='Localidad' />
-                <FormInput label='Provincia' />
-                <FormInput label='País' />
-              </div>
-            </FormSection>
-
-            {/* GRUPO FAMILIAR */}
-            <FormSection title='Grupo Familiar' icon={Users}>
-              <div className='flex items-end gap-8'>
-                <FormSelect label='Estado Civil' className='w-90'>
-                  <option value=''>Seleccionar...</option>
-                  <option value='soltero'>Soltero</option>
-                  <option value='casado'>Casado</option>
-                  <option value='separado'>Separado</option>
-                  <option value='divorciado'>Divorciado</option>
-                </FormSelect>
-
-                <label className='flex h-12 items-center gap-3 whitespace-nowrap'>
-                  <input
-                    type='checkbox'
-                    className='h-4 w-4 rounded border-border'
-                  />
-                  Tiene hijos
-                </label>
-
-                <div className='w-40'>
-                  <FormInput label='Cantidad' type='number' min={0} />
-                </div>
-              </div>
-            </FormSection>
+              Empleado activo
+            </label>
           </div>
-        </FormSection>
-
-        {/* NOTAS */}
-        <FormSection title='Notas' icon={NotebookTabs}>
-          <textarea className='h-32 w-full resize rounded-xl border border-border bg-background p-4 outline-none focus:ring-2 focus:ring-primary' />
-        </FormSection>
-
-        {/* BOTONES */}
-        <div className='sticky bottom-0 flex justify-end gap-4 rounded-xl border-border  px-8 py-6 backdrop-blur'>
-          <Button
-            type='reset'
-            variant='secondary'
-            size='lg'
-            onClick={() => {
-              setImagen(null)
-              if (imagenRef.current) {
-                imagenRef.current.value = ''
-              }
-            }}>
-            Cancelar
-          </Button>
-
-          <Button type='submit' variant='primary' size='lg'>
-            Agregar Empleado
-          </Button>
         </div>
-      </form>
-    </section>
+      </FormSection>
+
+      <FormSection
+        title='Datos Personales'
+        icon={User}
+        iconClassName='text-blue-500'>
+        <div className='grid grid-cols-12 gap-6'>
+          <div className='col-span-9 grid grid-cols-12 gap-5'>
+            <FormInput
+              label='DNI'
+              name='dni'
+              type='number'
+              className='col-span-4'
+              required
+            />
+
+            <FormInput
+              label='Fecha de Nacimiento'
+              name='fechaNacimiento'
+              type='date'
+              className='col-span-4'
+              required
+            />
+
+            <FormSelect
+              label='Estado Civil'
+              name='estadoCivil'
+              className='col-span-4'
+              defaultValue=''>
+              <option value='' disabled>
+                Seleccionar...
+              </option>
+              <option value='Soltero'>Soltero</option>
+              <option value='Casado'>Casado</option>
+              <option value='Separado'>Separado</option>
+              <option value='Divorciado'>Divorciado</option>
+              <option value='Viudo'>Viudo</option>
+            </FormSelect>
+
+            <FormInput
+              label='Apellido'
+              name='apellido'
+              className='col-span-6'
+              required
+            />
+
+            <FormInput
+              label='Nombres'
+              name='nombres'
+              className='col-span-6'
+              required
+            />
+          </div>
+
+          <div className='col-span-3'>
+            <label className='mb-2 block text-sm font-medium text-heading'>
+              Imagen
+            </label>
+
+            <input
+              ref={imagenRef}
+              hidden
+              name='imagen'
+              type='file'
+              accept='image/*'
+              onChange={handleImagen}
+            />
+
+            <button
+              type='button'
+              onClick={() => imagenRef.current?.click()}
+              className='flex h-40 w-full items-center justify-center overflow-hidden rounded-xl border border-border bg-background transition hover:border-primary hover:bg-surface-2'>
+              {imagen ? (
+                <img
+                  src={imagen}
+                  alt='Vista previa del empleado'
+                  className='h-full w-full object-cover'
+                />
+              ) : (
+                <span className='flex flex-col items-center gap-3 text-sm text-muted'>
+                  <FileImage size={30} />
+                  Cargar imagen
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+      </FormSection>
+
+      <FormSection title='Contacto' icon={Phone} iconClassName='text-blue-500'>
+        <div className='grid grid-cols-12 gap-5'>
+          <FormInput
+            label='Email'
+            name='email'
+            type='email'
+            className='col-span-7'
+            required
+          />
+
+          <FormInput
+            label='Teléfono'
+            name='telefono'
+            type='tel'
+            className='col-span-5'
+            required
+          />
+        </div>
+      </FormSection>
+
+      <FormSection title='Dirección' icon={House} iconClassName='text-blue-500'>
+        <div className='grid grid-cols-12 gap-5'>
+          <FormInput
+            label='Calle'
+            name='direccion.calle'
+            className='col-span-6'
+            required
+          />
+
+          <FormInput
+            label='Número'
+            name='direccion.numero'
+            type='number'
+            className='col-span-2'
+            required
+          />
+
+          <FormInput
+            label='Piso'
+            name='direccion.piso'
+            className='col-span-2'
+          />
+
+          <FormInput
+            label='Departamento'
+            name='direccion.dpto'
+            className='col-span-2'
+          />
+
+          <FormInput
+            label='Localidad'
+            name='direccion.localidad'
+            className='col-span-4'
+            required
+          />
+
+          <FormInput
+            label='Departamento / Partido'
+            name='direccion.departamento'
+            className='col-span-4'
+            required
+          />
+
+          <FormInput
+            label='Provincia'
+            name='direccion.provincia'
+            className='col-span-2'
+            required
+          />
+
+          <FormInput
+            label='País'
+            name='direccion.pais'
+            className='col-span-2'
+            defaultValue='Argentina'
+            required
+          />
+        </div>
+      </FormSection>
+
+      <FormSection
+        title='Grupo Familiar'
+        icon={Users}
+        iconClassName='text-blue-500'>
+        <div className='grid grid-cols-12 gap-5'>
+          <label className='col-span-6 flex h-12 cursor-pointer items-center gap-3 self-end rounded-xl border border-border bg-background px-5 text-sm font-medium text-heading'>
+            <input
+              type='checkbox'
+              name='hijos.tiene'
+              className='h-4 w-4 rounded border-border accent-primary'
+            />
+            Tiene hijos
+          </label>
+
+          <FormInput
+            label='Cantidad de hijos'
+            name='hijos.cantidad'
+            type='number'
+            min={0}
+            defaultValue={0}
+            className='col-span-6'
+          />
+        </div>
+      </FormSection>
+
+      <FormSection
+        title='Notas'
+        icon={NotebookTabs}
+        iconClassName='text-blue-500'>
+        <textarea
+          name='notas'
+          rows={5}
+          className='w-full resize-none rounded-xl border border-border bg-background p-4 text-heading outline-none transition focus:border-primary focus:ring-2 focus:ring-primary'
+        />
+      </FormSection>
+
+      <div className='flex justify-end gap-4 border-t border-border pt-6'>
+        <Button
+          type='reset'
+          variant='secondary'
+          size='lg'
+          onClick={handleReset}>
+          Cancelar
+        </Button>
+
+        <Button type='submit' variant='primary' size='lg'>
+          Agregar Empleado
+        </Button>
+      </div>
+    </form>
   )
 }

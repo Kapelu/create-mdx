@@ -1,41 +1,53 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { useModal } from '@/components/layout/ModalProvider'
 
 interface EscritorioProps {
   children: ReactNode
+  className?: string
 }
 
 const RESOLUCION_MINIMA = {
-  width: 1280,
-  height: 720,
+  width: 776,
+  height: 590,
 }
 
-export default function Escritorio({ children }: EscritorioProps) {
+const ANCHO_MAXIMO = 1200
+
+export default function Escritorio({ children, className }: EscritorioProps) {
   const { showModal } = useModal()
 
   const [validResolution, setValidResolution] = useState(false)
+  const modalMostrado = useRef(false)
 
   useEffect(() => {
     const verificarResolucion = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+
       const soportada =
-        window.innerWidth >= RESOLUCION_MINIMA.width &&
-        window.innerHeight >= RESOLUCION_MINIMA.height
+        width >= RESOLUCION_MINIMA.width && height >= RESOLUCION_MINIMA.height
 
       setValidResolution(soportada)
 
-      if (!soportada) {
+      if (!soportada && !modalMostrado.current) {
+        modalMostrado.current = true
+
         showModal({
           icon: 'warning',
           messages: [
             'La resolución actual no es compatible con este módulo.',
+            `Resolución disponible: ${width}x${height}.`,
             `Resolución mínima requerida: ${RESOLUCION_MINIMA.width}x${RESOLUCION_MINIMA.height}.`,
-            'Utilice una pantalla de escritorio para continuar.',
           ],
           buttonText: 'Aceptar',
         })
+      }
+
+      if (soportada) {
+        modalMostrado.current = false
       }
     }
 
@@ -50,9 +62,13 @@ export default function Escritorio({ children }: EscritorioProps) {
 
   if (!validResolution) {
     return (
-      <div className='flex min-h-screen items-center justify-center bg-background' />
+      <div className='flex h-full min-h-0 w-full items-center justify-center bg-background' />
     )
   }
 
-  return <>{children}</>
+  return (
+    <div className='mx-auto flex h-full min-h-0 w-full max-w-300 flex-col'>
+      <div className={className}>{children}</div>
+    </div>
+  )
 }

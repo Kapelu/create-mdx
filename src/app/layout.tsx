@@ -1,10 +1,12 @@
+import type { Metadata } from 'next'
+
 import Footer from '@/components/layout/Footer'
 import { ModalProvider } from '@/components/layout/ModalProvider'
+import { Providers } from '@/components/layout/providers'
 import { ComeBack } from '@/components/ui/ComeBack'
 import { AppConfig } from '@/lib/app/AppConfig'
-import type { Metadata } from 'next'
-import { Providers } from '../components/layout/providers'
-import { gentium } from '../lib/fonts'
+import { gentium } from '@/lib/fonts'
+
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -82,22 +84,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
     <html
       lang='es'
       data-scroll-behavior='smooth'
       className={`scroll-smooth dark ${gentium.variable}`}
       suppressHydrationWarning>
-      <body className='font-gentium bg-background text-text'>
+      <body className='h-dvh overflow-hidden bg-background font-gentium text-text'>
         <Providers>
           <ModalProvider>
-            <div className='flex min-h-screen flex-col'>
+            <div className='flex h-dvh min-h-0 flex-col overflow-hidden'>
               <ComeBack />
 
-              <main id='main-content' className='flex-1'>
+              <main
+                id='main-content'
+                className='min-h-0 flex-1 overflow-hidden'>
                 {children}
               </main>
 
