@@ -44,7 +44,7 @@ export default function FormSelect({
         <select
           required={required}
           className={clsx(
-            'h-12 w-full rounded-xl border border-border bg-background px-4 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary appearance-none',
+            'h-10 w-full rounded-xl border border-border bg-background px-4 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary appearance-none',
             icon && 'pr-12',
             selectClassName,
           )}

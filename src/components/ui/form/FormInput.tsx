@@ -44,7 +44,7 @@ export default function FormInput({
           type={type}
           required={required}
           className={clsx(
-            'h-12 w-full rounded-xl border border-border bg-background px-4 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary',
+            'h-10 w-full rounded-xl border border-border bg-background px-4 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary',
             icon && 'pr-12',
             inputClassName,
           )}

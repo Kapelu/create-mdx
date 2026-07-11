@@ -4,10 +4,11 @@ import { useMemo, useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { Container, LogOut, Route, Truck, Users } from 'lucide-react'
 
-import ContainerDashboard from '@/components/layout/ContainarDashboard'
+import ContainerDashboard from '@/components/layout/ContainerDashboard'
 import Hero from '@/components/layout/Hero'
 import EmpleadosPage from '@/components/pages/admin/EmpleadosPage'
 import TractorPage from '@/components/pages/admin/TractorPages'
+import SemiPage from './admin/SemiPage'
 import Fecha from '@/components/ui/Fecha'
 import Hora from '@/components/ui/Hora'
 import LogoutButton from '@/components/ui/login/LogoutButtons'
@@ -149,11 +150,7 @@ export default function AdminDashboard({ empleado }: AdminDashboardProps) {
 
               {activo === 'tractor' && <TractorPage />}
 
-              {activo === 'Semi' && (
-                <div className='flex h-full items-center justify-center'>
-                  <h1 className='text-4xl font-bold'>Semi</h1>
-                </div>
-              )}
+              {activo === 'Semi' && <SemiPage />}
 
               {activo === 'Viajes' && (
                 <div className='flex h-full items-center justify-center'>

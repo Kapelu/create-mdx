@@ -9,20 +9,20 @@ import Escritorio from '@/components/ui/Escritorio'
 
 const links = [
   {
-    label: 'Alta tractor',
-    href: '/',
+    label: 'Alta',
+    href: '/tractor/alta',
   },
   {
-    label: 'Consulta tractor',
-    href: '/simpson',
+    label: 'Consulta',
+    href: '/tractor/consulta',
   },
   {
-    label: 'Modificación tractor',
-    href: '/todolist',
+    label: 'Modificación',
+    href: '/tractor/modicicacion',
   },
   {
-    label: 'Baja tractor',
-    href: '/todolisft',
+    label: 'Baja',
+    href: '/tractor/baja',
   },
 ]
 

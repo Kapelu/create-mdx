@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import {
   Armchair,
   CalendarDays,
   CircleGauge,
   Cog,
-  Fuel,
   Gauge,
   Ruler,
   Settings,
@@ -15,11 +13,12 @@ import {
   Weight,
   Wrench,
 } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/Button'
-import FormInput from '@/components/ui/FormInput'
-import FormSection from '@/components/ui/FormSection'
-import FormSelect from '@/components/ui/FormSelect'
+import FormInput from '@/components/ui/form/FormInput'
+import FormSection from '@/components/ui/form/FormSection'
+import FormSelect from '@/components/ui/form/FormSelect'
 
 export default function AltaTractor() {
   const [retarder, setRetarder] = useState(true)
@@ -150,8 +149,8 @@ export default function AltaTractor() {
           />
 
           <FormInput
-            label='Versión de Cabina'
-            name='versionCabina'
+            label='Versión'
+            name='version'
             className='col-span-2'
             defaultValue='CG17N'
             required
