@@ -1,9 +1,11 @@
-import Container from "../layout/Container"
-import Hero from "../layout/Hero"
+import Container from '../layout/Container'
+import Hero from '../layout/Hero'
+import MdxDocument from '../mdx/MdxDocument'
+import MdxProgress from './MdxProgress'
 
 export default function Home() {
   return (
-    <section className='relative min-h-screen overflow-hidden px-4 py-16 lg:py-20'>
+    <section className='relative flex min-h-0 flex-1 overflow-hidden px-4 py-8 lg:py-10'>
       <Hero
         imageLight='/bg-light.svg'
         imageDark='/bg-light.svg'
@@ -12,8 +14,10 @@ export default function Home() {
       />
 
       <Container>
-        <div className='mx-auto max-w-4xl'>
-          <h1 className="text-center">Página Principal</h1>
+        <div className='mx-auto flex h-full min-h-0 max-w-4xl'>
+          <MdxProgress>
+            <MdxDocument filePath='src/doc/Input.tsx.mdx' />
+          </MdxProgress>
         </div>
       </Container>
     </section>
