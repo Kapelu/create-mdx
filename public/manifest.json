@@ -1,0 +1,62 @@
+{
+  "id": "/",
+  "name": "Daniel Calderon",
+  "short_name": "Kapelu",
+  "description": "Sitio web de Daniel Calderon | Kapelu",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#fdf6e3",
+  "theme_color": "#268bd2",
+  "lang": "es",
+  "categories": [
+    "Linux y Script Bash",
+    "Automatización con Bash",
+    "MDX con Next.js",
+    "Desarrollo Full Stack con React",
+    "Programación web en español",
+    "Desarrollador Full Stack",
+    "Frontend Developer",
+    "Backend Developer",
+    "Web Developer",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Tailwind CSS",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "PostgreSQL",
+    "Desarrollo Web",
+    "Programación",
+    "Blog de Programación",
+    "Linux",
+    "Script Bash",
+    "Aplicaciones Web",
+    "APIs",
+    "Bases de Datos",
+    "E-commerce"
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
