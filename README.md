@@ -4,7 +4,7 @@ Este es un proyecto de [Next.js](https://nextjs.org) generado con [`create-next-
 
 > Primero, instalar dependecia necesarias:
 ```bash
-pnpm add next-themes clsx tailwind-merge @heroicons/react gsap
+pnpm add next-themes clsx tailwind-merge @heroicons/react
 ```
 
 
