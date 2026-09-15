@@ -92,21 +92,14 @@ La propiedad `floating` permite convertir el label en un label flotante.
 />
 ```
 
-El label comienza dentro del campo y se desplaza hacia la parte superior cuando el campo recibe el foco o contiene un valor.
+El label comienza dentro del campo y se desplaza hacia la parte superior cuando el campo recibe el foco o contiene un valor y al enfocar o introducir contenido cambia de posición:
 
-```text
-┌──────────────────────┐
-│ Nombre               │
-└──────────────────────┘
-```
-
-Al enfocar o introducir contenido:
-
-```text
-┌ Nombre ──────────────┐
-│ Juan                 │
-└──────────────────────┘
-```
+<div className='mb-4'>
+<Input
+  label="Nombre"
+  floating
+/>
+</div>
 
 Si `floating` no está definido, su valor es `false`.
 
@@ -129,7 +122,7 @@ El componente ajusta automáticamente el espacio interno del campo para evitar q
 
 Sin icono:
 
-```text
+```tsx
 pl-4
 ```
 
@@ -154,6 +147,13 @@ import { EnvelopeIcon } from '@heroicons/react/24/outline'
   icon={<EnvelopeIcon className="h-5 w-5" />}
 />
 ```
+<div className='mb-4'>
+<Input
+  label="Email"
+  type="email"
+  icon={<EnvelopeIcon className="h-5 w-5" />}
+/>
+</div>
 
 También puede combinarse con labels flotantes:
 
@@ -166,6 +166,14 @@ import { UserIcon } from '@heroicons/react/24/outline'
   icon={<UserIcon className="h-5 w-5" />}
 />
 ```
+<div className='mb-4'>
+<Input
+  label="Email"
+  type="email"
+  floating
+  icon={<EnvelopeIcon className="h-5 w-5" />}
+/>
+</div>
 
 Cuando se utiliza `floating`, el posicionamiento del label se adapta automáticamente a la presencia del icono.
 
@@ -182,37 +190,17 @@ El componente incorpora un comportamiento específico para campos cuyo `type` es
 />
 ```
 
-Cuando se utiliza este tipo, aparece automáticamente un control para mostrar u ocultar el contenido.
+Cuando se utiliza este tipo, aparece automáticamente un control para mostrar u ocultar el contenido.El estado se alterna entre:
 
-El estado se alterna entre:
+<div className='mb-4'>
+<Input
+  label="Contraseña"
+  type="password"
+  required
+/>
+</div>
 
-```text
-password
-```
-
-y:
-
-```text
-text
-```
-
-El control utiliza `EyeIcon` y `EyeSlashIcon` de Heroicons.
-
-### Accesibilidad
-
-El botón incorpora un `aria-label` que cambia según el estado:
-
-```text
-Mostrar contraseña
-```
-
-o:
-
-```text
-Ocultar contraseña
-```
-
-Esto permite identificar correctamente la acción mediante tecnologías de asistencia.
+El control utiliza `EyeIcon` y `EyeSlashIcon` de Heroicons. Esto permite identificar correctamente la acción mediante tecnologías de asistencia, permitiendo mostrar la contraseña.
 
 ---
 
@@ -226,20 +214,14 @@ La propiedad `required` permite marcar un campo como obligatorio.
   required
 />
 ```
+<div className='mb-4'>
+<Input
+  label="Nombre"
+  required
+/>
+</div>
 
-Además del atributo HTML `required`, el componente muestra un indicador visual junto al label:
-
-```text
-Nombre *
-```
-
-El indicador utiliza el estilo:
-
-```text
-text-red-500
-```
-
-y proporciona información adicional mediante:
+Además del atributo HTML `required`, el componente muestra un indicador visual junto al label. El indicador utiliza el estilo `text-red-500` y proporciona información adicional mediante:
 
 ```html
 title="Campo obligatorio"
@@ -247,24 +229,19 @@ title="Campo obligatorio"
 
 También funciona con labels flotantes:
 
-```tsx
+<div className='mb-4'>
 <Input
   label="Nombre"
-  floating
   required
+  floating
 />
-```
+</div>
 
 ---
 
 ## Textarea
 
-Para utilizar el componente como textarea se debe establecer:
-
-```tsx
-multiline
-```
-
+Para utilizar el componente como textarea se debe establecer `multiline`.
 Ejemplo:
 
 ```tsx
@@ -276,9 +253,12 @@ Ejemplo:
 
 El componente renderiza un elemento:
 
-```html
-<textarea>
-```
+<div className='mb-4'>
+<Input
+  label="Descripción"
+  multiline
+/>
+</div>
 
 ---
 

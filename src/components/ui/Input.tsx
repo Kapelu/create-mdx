@@ -56,13 +56,13 @@ export default function Input({
       {label && !floating && (
         <label
           className={clsx(
-            'mb-2 flex items-center text-sm font-medium text-title',
+            'mb-1 flex items-center text-sm font-medium text-title',
             labelClassName,
           )}>
           <span>{label}</span>
 
           {required && (
-            <span className='ml-1 text-red-500' title='Campo obligatorio'>
+            <span className='ml-1 text-danger' title='Campo obligatorio'>
               *
             </span>
           )}
@@ -105,6 +105,7 @@ export default function Input({
             className={clsx(
               base,
               'h-12',
+              isPassword && 'text-2xl! tracking-widest',
               icon ? 'pl-12' : 'pl-4',
               isPassword ? 'pr-12' : 'pr-4',
               !floating && 'placeholder:text-muted',
@@ -134,7 +135,7 @@ export default function Input({
         {floating && (
           <span
             className={clsx(
-              'pointer-events-none absolute bg-background px-1 text-muted transition-all duration-200 peer-focus:top-0 peer-focus:text-xs peer-focus:font-semibold peer-not-placeholder-shown:top-0 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:font-semibold',
+              'pointer-events-none absolute bg-background px-2 text-muted transition-all duration-200 peer-focus:-top-3 peer-focus:text-sm peer-focus:font-semibold peer-not-placeholder-shown:-top-3 peer-not-placeholder-shown:text-sm peer-not-placeholder-shown:font-semibold',
               multiline
                 ? 'top-4'
                 : 'top-1/2 -translate-y-1/2 peer-focus:translate-y-0 peer-not-placeholder-shown:translate-y-0',
@@ -142,7 +143,7 @@ export default function Input({
             )}>
             {label || placeholder}
 
-            {required && <span className='ml-1 text-red-500'>*</span>}
+            {required && <span className='ml-1 text-danger'>*</span>}
           </span>
         )}
       </div>

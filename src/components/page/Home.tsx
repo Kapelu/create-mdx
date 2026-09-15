@@ -1,7 +1,6 @@
 import Container from '../layout/Container'
 import Hero from '../layout/Hero'
 import MdxDocument from '../mdx/MdxDocument'
-import MdxProgress from './MdxProgress'
 
 export default function Home() {
   return (
@@ -14,10 +13,10 @@ export default function Home() {
       />
 
       <Container>
-        <div className='mx-auto flex h-full min-h-0 max-w-4xl'>
-          <MdxProgress>
+        <div className='mx-auto max-w-4xl'>
+          <div className='mdx-scroll h-[calc(100dvh-128px)] overflow-y-auto rounded-2xl border border-border bg-surface-2/80 p-6 shadow-xl backdrop-blur-sm md:p-8'>
             <MdxDocument filePath='src/doc/Input.tsx.mdx' />
-          </MdxProgress>
+          </div>
         </div>
       </Container>
     </section>
