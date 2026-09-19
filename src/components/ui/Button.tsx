@@ -43,7 +43,7 @@ const sizes = {
   lg: 'h-12 px-6 text-base',
 }
 
-export function Button({
+export default function Button({
   className,
   variant = 'primary',
   size = 'md',

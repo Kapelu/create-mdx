@@ -1,0 +1,961 @@
+`Button` es un componente reutilizable que centraliza la apariencia, el comportamiento y la interacción de botones y enlaces dentro de la aplicación.
+
+El componente está diseñado para cubrir los principales casos de uso de la interfaz sin necesidad de crear componentes separados para botones y enlaces.
+
+## Características
+
+- 4 variantes visuales.
+- 3 tamaños.
+- Estado de carga (`loading`).
+- Estado deshabilitado (`disabled`).
+- Eventos estándar de React.
+- Integración con formularios.
+- Navegación interna mediante `next/link`.
+- Enlaces externos.
+- Descargas.
+- Clases Tailwind personalizadas.
+- Color de fondo personalizado.
+- Tamaño de texto personalizado.
+- Contenido React arbitrario.
+- Soporte para iconos.
+
+Una de sus principales características es que determina automáticamente qué elemento HTML utilizar según la presencia de `href`.
+
+| Configuración | Elemento renderizado |
+| ------------- | -------------------- |
+| Sin `href`    | `<button>`           |
+| Con `href`    | `<Link>`             |
+
+De esta forma, un único componente puede utilizarse tanto para acciones como para navegación.
+
+---
+
+# Dependencias
+
+El componente utiliza [`clsx`](https://github.com/lukeed/clsx) para combinar dinámicamente las clases CSS correspondientes a la variante, el tamaño, el estado de carga y las clases personalizadas.
+
+La dependencia es necesaria para el funcionamiento de `Button`.
+
+Instalar con:
+
+```bash
+pnpm add clsx
+```
+
+---
+
+# Instalación
+
+El componente puede importarse directamente desde:
+
+```tsx
+import Button from '@/components/ui/Button'
+```
+
+Ejemplo básico:
+
+```tsx
+import Button from '@/components/ui/Button'
+
+export default function Page() {
+  return <Button variant='primary'>Guardar</Button>
+}
+```
+
+y se rendeizaría:
+
+<Button variant='primary'>Guardar</Button>
+
+---
+
+# Variantes
+
+`Button` dispone de cuatro variantes:
+
+```ts
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'menu'
+```
+
+---
+
+## `primary`
+
+Es la variante predeterminada y está destinada a las acciones principales de la interfaz.
+
+<Button variant='primary'>Guardar</Button>
+
+```tsx
+<Button>Guardar</Button>
+```
+
+También puede especificarse explícitamente:
+
+```tsx
+<Button variant='primary'>Guardar</Button>
+```
+
+### Estilos
+
+Utiliza:
+
+```text
+rounded-full
+bg-background
+px-4
+py-1
+text-surface2
+hover:bg-muted h
+over:text-surface
+```
+
+### Uso recomendado
+
+Es apropiada para acciones como:
+
+- Guardar.
+- Crear.
+- Confirmar.
+- Continuar.
+- Enviar.
+- Iniciar.
+- Acceder.
+
+Ejemplo:
+
+```tsx
+<Button variant='primary'>Guardar empleado</Button>
+```
+
+---
+
+## `secondary`
+
+Está destinada a acciones secundarias o complementarias.
+
+<Button variant='secondary'>Cancelar</Button>
+
+```tsx
+<Button variant='secondary'>Cancelar</Button>
+```
+
+### Estilos
+
+Utiliza:
+
+```text
+rounded-lg
+bg-muted
+text-link
+hover:border-secondary
+hover:brightness-115
+```
+
+### Uso recomendado
+
+Por ejemplo:
+
+- Cancelar.
+- Volver.
+- Ver detalles.
+- Filtrar.
+- Opciones secundarias.
+- Acciones complementarias.
+
+Ejemplo:
+
+```tsx
+<div className='flex gap-2'>
+  <Button variant='primary'>Guardar</Button>
+  <Button variant='secondary'>Cancelar</Button>
+</div>
+```
+
+<div className='flex gap-2'>
+  <Button variant='primary'>Guardar</Button>
+  <Button variant='secondary'>Cancelar</Button>
+</div>
+---
+
+## `ghost`
+
+Es una variante de menor peso visual, adecuada para acciones auxiliares.
+
+<Button variant='ghost'>Editar</Button>
+
+```tsx
+<Button variant='ghost'>Editar</Button>
+```
+
+### Estilos
+
+Utiliza:
+
+```text
+rounded-lg
+bg-background
+text-foreground
+hover:border-secondary
+hover:bg-muted
+hover:text-surface
+```
+
+### Uso recomendado
+
+Es apropiada para acciones como:
+
+- Editar.
+- Ver.
+- Más opciones.
+- Volver.
+- Acciones secundarias.
+- Controles auxiliares.
+
+Ejemplo:
+
+```tsx
+<Button variant='ghost'>Ver detalles</Button>
+```
+
+<Button variant='ghost'>Ver detalles</Button>
+
+---
+
+## `menu`
+
+Está diseñada específicamente para elementos de navegación y menús.
+
+<Button variant='menu'>Empleados</Button>
+
+```tsx
+<Button variant='menu'>Empleados</Button>
+```
+
+### Estilos
+
+Utiliza:
+
+```text
+block
+w-full
+p-4
+text-center
+text-xl
+font-bold
+text-title
+transition
+hover:bg-muted
+```
+
+### Uso recomendado
+
+```tsx
+<nav className='flex flex-row gap-8'>
+  <Button variant='menu'>Inicio</Button>
+  <Button variant='menu'>Empleados</Button>
+  <Button variant='menu'>Viajes</Button>
+</nav>
+```
+
+<nav className='flex flex-row gap-8 mb-4'>
+  <Button variant='menu'>Inicio</Button>
+  <Button variant='menu'>Empleados</Button>
+  <Button variant='menu'>Viajes</Button>
+</nav>
+
+También puede utilizarse con `href`:
+
+```tsx
+<Button variant='menu' href='/rrhh/empleados'>
+  Empleados
+</Button>
+```
+
+<div className='mb-4'>
+  <Button variant='menu' href=''>
+    Empleados
+  </Button>
+</div>
+
+En este caso, el componente se renderiza como un `Link`.
+
+---
+
+# Tamaños
+
+El componente dispone de tres tamaños:
+
+```ts
+type ButtonSize = 'sm' | 'md' | 'lg'
+```
+
+| Tamaño | Altura | Texto       |
+| ------ | -----: | ----------- |
+| `sm`   |   32px | `text-sm`   |
+| `md`   |   40px | `text-md`   |
+| `lg`   |   48px | `text-base` |
+
+El tamaño predeterminado es `md`.
+
+---
+
+## `sm`
+
+Está pensado para interfaces compactas y elementos que necesitan ocupar poco espacio.
+
+```tsx
+<Button size='sm'>Editar</Button>
+```
+
+### Estilos
+
+```text
+h-8
+px-3
+text-sm
+```
+
+### Uso recomendado
+
+- Tablas.
+- Acciones pequeñas.
+- Controles compactos.
+- Botones dentro de tarjetas.
+
+---
+
+## `md`
+
+Es el tamaño predeterminado y está pensado para la mayoría de las acciones de la aplicación.
+
+```tsx
+<Button size='md'>Guardar</Button>
+```
+
+### Estilos
+
+h-10
+px-4
+text-sm
+
+### Uso recomendado
+
+Acciones generales.
+Formularios.
+Botones principales.
+Navegación.
+Acciones frecuentes de la aplicación.
+
+---
+
+## `lg`
+
+Está pensado para acciones que necesitan mayor presencia visual.
+
+```tsx
+<Button size='lg'>Crear empleado</Button>
+```
+
+### Estilos
+
+```text
+h-12
+px-6
+text-base
+```
+
+### Uso recomendado
+
+- Acciones importantes.
+- Formularios.
+- CTA.
+- Pantallas donde el botón necesita mayor presencia visual.
+
+---
+
+# Estado de carga
+
+El componente incorpora un estado de carga mediante la propiedad `loading`.
+
+```tsx
+<Button loading>Guardar</Button>
+```
+
+Cuando `loading` es `true`:
+
+1. El botón queda deshabilitado.
+2. Se agrega `cursor-wait`.
+3. Se agrega `opacity-70`.
+4. El contenido se reemplaza por `Cargando...`.
+
+Internamente se utiliza:
+
+```tsx
+disabled={disabled || loading}
+```
+
+Por lo tanto, mientras la operación está en progreso, el usuario no puede ejecutar nuevamente la acción.
+
+Ejemplo:
+
+```tsx
+<Button loading={loading} onClick={handleSave}>
+  Guardar empleado
+</Button>
+```
+
+---
+
+# Estado deshabilitado
+
+El componente admite la propiedad estándar `disabled` de HTML:
+
+```tsx
+<Button disabled>Guardar</Button>
+```
+
+Cuando está deshabilitado, aplica:
+
+```text
+disabled:pointer-events-none
+disabled:opacity-50
+```
+
+Esto evita la interacción y proporciona una representación visual del estado deshabilitado.
+
+---
+
+# Eventos
+
+Al extender las propiedades estándar de un botón HTML, `Button` permite utilizar eventos de React.
+
+Por ejemplo:
+
+```tsx
+<Button onClick={() => console.log('Click')}>Presionar</Button>
+```
+
+También puede utilizar funciones:
+
+```tsx
+<Button onClick={handleSave}>Guardar</Button>
+```
+
+---
+
+# Formularios
+
+`Button` puede utilizarse directamente dentro de formularios.
+
+## Submit
+
+```tsx
+<form onSubmit={handleSubmit}>
+  <Button type='submit'>Guardar</Button>
+</form>
+```
+
+## Cancelación
+
+```tsx
+<form>
+  <Button type='button'>Cancelar</Button>
+</form>
+```
+
+Es importante utilizar `type="button"` cuando el botón no debe enviar el formulario.
+
+---
+
+# Navegación interna
+
+Cuando se proporciona `href`, el componente utiliza `next/link`.
+
+```tsx
+<Button href='/empleados'>Empleados</Button>
+```
+
+Conceptualmente, el resultado es:
+
+```tsx
+<Link href='/empleados'>Empleados</Link>
+```
+
+Esto permite utilizar el mismo componente para acciones y navegación interna.
+
+---
+
+# Enlaces con variantes
+
+Las variantes también funcionan cuando `Button` se utiliza como enlace.
+
+```tsx
+<Button href='/rrhh/empleados' variant='primary'>
+  Empleados
+</Button>
+```
+
+```tsx
+<Button href='/rrhh/empleados' variant='secondary'>
+  Ver empleados
+</Button>
+```
+
+También es posible utilizar la variante `menu`:
+
+```tsx
+<Button href='/rrhh/empleados' variant='menu'>
+  Empleados
+</Button>
+```
+
+---
+
+# Enlaces externos
+
+El componente permite utilizar propiedades estándar de enlaces como `target` y `rel`.
+
+```tsx
+<Button href='https://example.com' target='_blank' rel='noopener noreferrer'>
+  Sitio web
+</Button>
+```
+
+Esto permite utilizar el mismo componente para enlaces internos y externos.
+
+---
+
+# Descargas
+
+También admite la propiedad `download`.
+
+```tsx
+<Button href='/documentos/manual.pdf' download='manual.pdf'>
+  Descargar manual
+</Button>
+```
+
+---
+
+# Clases personalizadas
+
+Es posible agregar clases adicionales mediante `className`. en este caso
+
+```tsx
+<Button className='w-full'>Guardar</Button>
+```
+
+También pueden combinarse varias clases:
+
+```tsx
+<Button className='mt-4 w-full'>Continuar</Button>
+```
+
+Las clases proporcionadas mediante `className` se combinan con las clases internas del componente mediante `clsx`.
+
+---
+
+# Color de fondo personalizado
+
+El componente dispone de la propiedad `backgroundColor`.
+
+```ts
+backgroundColor?: string
+```
+
+Ejemplo:
+
+```tsx
+<Button backgroundColor='#dc2626'>Eliminar</Button>
+```
+
+Internamente se aplica mediante estilos inline:
+
+```tsx
+style={{
+  backgroundColor: '#dc2626'
+}}
+```
+
+También pueden utilizarse variables CSS:
+
+```tsx
+<Button backgroundColor='var(--color-brand)'>Acción</Button>
+```
+
+---
+
+# Tamaño de texto personalizado
+
+La propiedad `textSize` permite modificar el tamaño del texto.
+
+```ts
+textSize?: string
+```
+
+Ejemplo:
+
+```tsx
+<Button textSize='20px'>Continuar</Button>
+```
+
+Internamente:
+
+```tsx
+style={{
+  fontSize: '20px'
+}}
+```
+
+También acepta otras unidades CSS:
+
+```tsx
+<Button textSize='1.25rem'>Continuar</Button>
+```
+
+---
+
+# Combinación de propiedades
+
+Las diferentes propiedades pueden combinarse en un mismo componente.
+
+Por ejemplo:
+
+```tsx
+<Button variant='primary' size='lg' loading>
+  Guardar cambios
+</Button>
+```
+
+Otro ejemplo:
+
+```tsx
+<Button variant='secondary' size='sm' className='w-full'>
+  Cancelar
+</Button>
+```
+
+---
+
+# Contenido e iconos
+
+`children` acepta `React.ReactNode`, por lo que el componente puede contener texto, iconos u otros elementos React.
+
+## Icono antes del texto
+
+```tsx
+<Button>
+  <Icon />
+  Guardar
+</Button>
+```
+
+## Icono después del texto
+
+```tsx
+<Button>
+  Editar
+  <Icon />
+</Button>
+```
+
+## Icono con descripción
+
+```tsx
+<Button>
+  <Icon />
+  Nuevo empleado
+</Button>
+```
+
+La clase base:
+
+```text
+inline-flex
+items-center
+justify-center
+```
+
+permite alinear correctamente los elementos internos.
+
+---
+
+# Contenido complejo
+
+Al aceptar `React.ReactNode`, `children` puede contener estructuras React más complejas.
+
+Por ejemplo:
+
+```tsx
+<Button>
+  <span>+</span>
+  <span>Nuevo empleado</span>
+</Button>
+```
+
+También:
+
+```tsx
+<Button>
+  <p>Guardar</p>
+</Button>
+```
+
+El componente contiene reglas específicas para elementos `<p>`:
+
+```text
+[&>p]:m-0
+[&>p]:leading-none
+```
+
+Estas reglas eliminan el margen predeterminado del párrafo y normalizan su altura de línea.
+
+---
+
+# Ejemplo completo
+
+Una interfaz puede combinar las diferentes variantes de esta manera:
+
+```tsx
+<div className='flex gap-2'>
+  <Button variant='primary'>Guardar</Button>
+
+  <Button variant='secondary'>Cancelar</Button>
+
+  <Button variant='ghost'>Editar</Button>
+
+  <Button variant='menu'>Menú</Button>
+</div>
+```
+
+---
+
+# Ejemplo de formulario
+
+```tsx
+<form onSubmit={handleSubmit}>
+  <div className='flex gap-2'>
+    <Button type='submit' variant='primary' loading={loading}>
+      Guardar empleado
+    </Button>
+
+    <Button type='button' variant='secondary' onClick={handleCancel}>
+      Cancelar
+    </Button>
+  </div>
+</form>
+```
+
+---
+
+# Ejemplo de navegación
+
+```tsx
+<nav>
+  <Button href='/' variant='menu'>
+    Inicio
+  </Button>
+
+  <Button href='/rrhh/empleados' variant='menu'>
+    Empleados
+  </Button>
+
+  <Button href='/logistica/viajes' variant='menu'>
+    Viajes
+  </Button>
+</nav>
+```
+
+---
+
+# API
+
+## Props propias
+
+| Prop              | Tipo                                            | Predeterminado | Descripción                                     |
+| ----------------- | ----------------------------------------------- | -------------- | ----------------------------------------------- |
+| `variant`         | `'primary' \| 'secondary' \| 'ghost' \| 'menu'` | `'primary'`    | Variante visual                                 |
+| `size`            | `'sm' \| 'md' \| 'lg'`                          | `'md'`         | Tamaño del componente                           |
+| `loading`         | `boolean`                                       | `false`        | Indica si el componente está en estado de carga |
+| `href`            | `string`                                        | —              | Convierte el componente en un `Link`            |
+| `target`          | `string`                                        | —              | Destino del enlace                              |
+| `rel`             | `string`                                        | —              | Relación del enlace                             |
+| `download`        | `string`                                        | —              | Nombre del recurso descargado                   |
+| `backgroundColor` | `string`                                        | —              | Color de fondo personalizado                    |
+| `textSize`        | `string`                                        | —              | Tamaño de texto personalizado                   |
+| `children`        | `React.ReactNode`                               | requerido      | Contenido del componente                        |
+
+## Props heredadas de HTML
+
+El componente extiende:
+
+```ts
+React.ButtonHTMLAttributes<HTMLButtonElement>
+```
+
+Por lo tanto, también admite las propiedades estándar de un elemento `<button>`, incluyendo:
+
+```text
+type
+disabled
+onClick
+onFocus
+onBlur
+name
+value
+form
+aria-*
+data-*
+```
+
+Por ejemplo:
+
+```tsx
+<Button type='submit' name='action' value='save' disabled={false}>
+  Guardar
+</Button>
+```
+
+---
+
+# Renderizado dinámico
+
+El comportamiento principal del componente depende de la propiedad `href`.
+
+## Sin `href`
+
+```tsx
+<Button>Guardar</Button>
+```
+
+El componente renderiza conceptualmente:
+
+```html
+<button>Guardar</button>
+```
+
+## Con `href`
+
+```tsx
+<Button href='/empleados'>Empleados</Button>
+```
+
+El componente renderiza conceptualmente:
+
+```tsx
+<Link href='/empleados'>Empleados</Link>
+```
+
+La lógica principal puede resumirse como:
+
+```tsx
+if (href) {
+  return <Link ... />
+}
+
+return <button ... />
+```
+
+---
+
+# Arquitectura de estilos
+
+Las clases visuales se construyen mediante `clsx`.
+
+Conceptualmente:
+
+```tsx
+const classes = clsx(
+  base,
+  variants[variant],
+  sizes[size],
+  loading && 'cursor-wait opacity-70',
+  className,
+)
+```
+
+Las clases finales se construyen a partir de diferentes niveles:
+
+```text
+base
+  ↓
+variant
+  ↓
+size
+  ↓
+loading
+  ↓
+className personalizado
+```
+
+Por ejemplo:
+
+```tsx
+<Button variant='primary' size='lg' className='w-full'>
+  Guardar
+</Button>
+```
+
+combina conceptualmente:
+
+```text
+base
++
+primary
++
+lg
++
+w-full
+```
+
+Esto permite mantener centralizada la apariencia del componente y, al mismo tiempo, proporcionar personalización cuando sea necesaria.
+
+---
+
+# Resumen
+
+`Button` es un componente de propósito general diseñado para centralizar botones y enlaces dentro de la aplicación.
+
+Sus principales capacidades son:
+
+- **4 variantes:** `primary`, `secondary`, `ghost` y `menu`.
+- **3 tamaños:** `sm`, `md` y `lg`.
+- Estado `loading`.
+- Estado `disabled`.
+- Eventos de React.
+- Integración con formularios.
+- Navegación mediante `next/link`.
+- Enlaces externos.
+- Descargas.
+- Clases Tailwind personalizadas.
+- Color de fondo personalizado.
+- Tamaño de texto personalizado.
+- Contenido React arbitrario.
+- Soporte para iconos.
+
+## API mínima
+
+Para una acción estándar:
+
+```tsx
+<Button variant='primary' size='md'>
+  Guardar
+</Button>
+```
+
+Para una acción con estado de carga:
+
+```tsx
+<Button variant='primary' size='md' loading={loading}>
+  Guardar
+</Button>
+```
+
+Para navegación:
+
+```tsx
+<Button href='/empleados' variant='secondary'>
+  Empleados
+</Button>
+```
+
+De esta manera, `Button` proporciona una única interfaz reutilizable para la mayoría de los casos de uso relacionados con acciones y navegación dentro de la aplicación.

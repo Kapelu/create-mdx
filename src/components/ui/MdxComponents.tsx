@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import type { MDXComponents } from 'mdx/types'
 import { createHighlighter } from 'shiki'
+import Button from './Button'
 import Input from './Input'
 import {
   DocumentTextIcon,
@@ -171,7 +172,7 @@ function MdxPre({
 
 const mdxComponents: MDXComponents = {
   Input,
-
+  Button,
   DocumentTextIcon,
   EnvelopeIcon,
   EyeIcon,
